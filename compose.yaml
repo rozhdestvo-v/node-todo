@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: node_todo
+
+    ports:
+      - "127.0.0.1:5433:5432"
+
+    volumes:
+      - todo_pgdata:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d node_todo"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  todo_pgdata:
