@@ -1,15 +1,32 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Список дел — настройка</title>
-  </head>
-  <body>
-    <main>
-      <h1>Список дел</h1>
-      <p>Сервер работает. Интерфейс появится на следующем этапе.</p>
-      <p><a href="/login/">Проверить логин автора</a></p>
-    </main>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light"><title>Тихо — пространство для дел</title>
+  <link rel="stylesheet" href="/styles.css"><script src="/app.js" defer></script>
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="shell">
+  <header class="topbar"><a class="brand" href="/" aria-label="Тихо — главная"><span class="brand-icon" aria-hidden="true">т.</span> тихо<span class="brand-dot">/</span></a><span class="top-note">Меньше шума. Больше сделанного.</span><span class="pill">Личное пространство</span></header>
+  <main>
+    <section id="login-panel" class="login glass" aria-labelledby="login-heading">
+      <span class="eyebrow">ПРОСТРАНСТВО ДЛЯ ВАЖНОГО</span><h1 id="login-heading">Всё по порядку.<br><span class="muted">В своём темпе.</span></h1>
+      <p class="intro">Соберите дела в одном месте и освободите немного пространства в голове.</p>
+      <form id="login-form"><label for="token">Токен доступа</label><div class="input-wrap"><input id="token" type="password" required autocomplete="off" placeholder="Введите ваш токен"><button id="reveal" type="button" class="text-button" aria-pressed="false">Показать</button></div><button class="primary wide" type="submit">Войти в пространство <span aria-hidden="true">↗</span></button></form>
+      <p class="footnote">Токен хранится только в памяти этой вкладки.<br>После перезагрузки потребуется войти заново.</p>
+    </section>
+    <section id="workspace" hidden>
+      <div class="heading-row"><div><span class="eyebrow">ВАШ СПОКОЙНЫЙ РИТМ</span><h1>Мои дела<span class="muted">.</span></h1><p class="subtitle">Не всё сразу. Одно дело за другим.</p></div><div class="identity glass"><span id="avatar" class="avatar" aria-hidden="true"></span><div><div id="full-name"></div><small id="author-login"></small></div><button id="logout" class="text-button" type="button">Выйти</button></div></div>
+      <div class="workspace-grid">
+        <aside class="sidebar glass"><span class="eyebrow">ОБЗОР</span><nav aria-label="Фильтры задач"><button type="button" class="nav-button active" data-filter="all" aria-pressed="true">Все дела <span id="count-all">0</span></button><button type="button" class="nav-button" data-filter="active" aria-pressed="false">В процессе <span id="count-active">0</span></button><button type="button" class="nav-button" data-filter="done" aria-pressed="false">Завершённые <span id="count-done">0</span></button></nav><div class="divider"></div><form id="run-form"><label for="run-id">Пространство / runId</label><input id="run-id" value="manual" required pattern="[A-Za-z0-9_-]{1,64}" maxlength="64"><button class="secondary wide" type="submit">Открыть</button></form><p class="footnote">Для персонального дела используйте пространство manual.</p></aside>
+        <section class="tasks-panel glass" aria-labelledby="list-heading"><div class="panel-top"><div><span class="eyebrow" id="space-label">MANUAL</span><h2 id="list-heading">Мои задачи</h2></div><button id="refresh" class="secondary" type="button">Обновить</button></div><form id="add-form" class="add-form"><label for="new-title" class="sr-only">Новое дело</label><input id="new-title" required placeholder="Что хочется сделать?" autocomplete="off"><button type="submit" class="primary">Добавить <span aria-hidden="true">+</span></button></form><div class="list-toolbar"><span id="list-summary">Загрузка…</span><span class="quiet">Маленькие шаги — тоже движение</span></div><ul id="tasks" class="task-list"></ul><div id="empty" class="empty" hidden><span class="empty-icon" aria-hidden="true">✓</span><h3>Немного свободного места</h3><p>Добавьте новое дело или выберите другой фильтр.</p></div><footer class="panel-footer"><span id="progress-text">0 из 0 завершено</span><progress id="progress" max="1" value="0" aria-label="Доля завершённых дел"></progress></footer></section>
+      </div>
+    </section>
+    <p id="message" class="message" role="status" aria-live="polite" hidden></p>
+  </main>
+  <footer class="site-footer"><span>тихо / список дел</span><span>Создано для ясности</span></footer>
+</div>
+<dialog id="edit-dialog" class="glass"><form id="edit-form"><span class="eyebrow">ЕЩЁ НЕМНОГО ЯСНОСТИ</span><h2>Изменить дело</h2><label for="edit-title">Название</label><input id="edit-title" required><div class="dialog-actions"><button id="cancel-edit" type="button" class="secondary">Отмена</button><button type="submit" class="primary">Сохранить</button></div></form></dialog>
+<dialog id="delete-dialog" class="glass"><form id="delete-form"><span class="eyebrow">ОСВОБОЖДАЕМ МЕСТО</span><h2>Удалить дело?</h2><p id="delete-title"></p><p class="footnote">Это действие нельзя отменить.</p><div class="dialog-actions"><button id="cancel-delete" type="button" class="secondary">Оставить</button><button type="submit" class="danger">Удалить</button></div></form></dialog>
+</body></html>
