@@ -131,6 +131,65 @@ npm start
 npm run dev
 ```
 
+## Независимая проверка базы данных
+
+Для преподавателя предусмотрена отдельная роль PostgreSQL
+`todo_reviewer`, позволяющая подключиться к той же базе данных,
+которую использует приложение.
+
+Пароль передаётся преподавателю отдельно и не публикуется в репозитории.
+Аккаунт Supabase для такого подключения не требуется.
+
+### Подключение через psql
+
+Выполните из корня репозитория:
+
+```bash
+psql "host=aws-1-eu-west-1.pooler.supabase.com port=5432 dbname=postgres user=todo_reviewer.nwjcazycfriqiqqgdabn sslmode=verify-full sslrootcert=certs/supabase-ca.crt connect_timeout=15" -W
+```
+
+Введите пароль роли `todo_reviewer` по запросу.
+
+### Проверка роли и базы данных
+
+```sql
+SELECT
+    session_user,
+    current_user,
+    current_database();
+```
+
+Ожидаемый результат:
+
+- session_user: todo_reviewer
+- current_user: todo_reviewer
+- current_database: postgres
+
+### Проверка персональной задачи
+
+```sql
+SELECT
+    id,
+    owner_login,
+    title,
+    done,
+    run_id,
+    created_at
+FROM public.tasks
+WHERE owner_login = 'rozhdestvo_v'
+  AND run_id = 'manual'
+  AND title = 'Итоговая работа 24.10.2026: rozhdestvo_v';
+```
+
+На момент итоговой проверки запрос вернул персональную задачу с ID:
+`288d2427-d953-4f6e-b28d-91b490396c2a`.
+
+Для выхода из psql:
+
+```text
+\q
+```
+
 ## Сравнение размещения БД
 
 Дата проверки всех вариантов: 22.11.2026.
