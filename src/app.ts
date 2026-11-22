@@ -35,3 +35,5 @@ const handleError: ErrorRequestHandler = (error, _req, res, _next) => {
   res.status(500).json({ error: 'Внутренняя ошибка сервера' });
 };
 app.use(handleError);
+
+export default app;
